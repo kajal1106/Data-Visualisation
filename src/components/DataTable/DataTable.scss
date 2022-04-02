@@ -1,0 +1,70 @@
+@import '../../styles/base';
+
+.DataTable {
+  flex: 1.5;
+  background-color: #fff;
+  box-shadow: 0 3px 10px 0 rgba(99, 118, 129, 0.3);
+  transition: box-shadow 0.25s cubic-bezier(0.32, 0.01, 0, 1);
+  box-sizing: border-box;
+  flex-direction: column;
+  // margin-left: auto;
+  // margin-right: auto;
+  height: 40em;
+  overflow: scroll;
+
+  table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    -webkit-overflow-scrolling: touch;
+
+    td,
+    th {
+      border-collapse: collapse;
+      padding: 8px;
+    }
+
+    tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid color('teal', .5);
+    }
+thead {
+  position: sticky;
+    top: 0;
+    z-index: 1;
+}
+    thead tr th {
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      height: 48px;
+      padding: 0 .6em;
+      vertical-align: middle;
+      font-weight: 600;
+    }
+
+  
+    tbody tr td {
+      font-size: 0.8em;
+      border-bottom: thin solid rgba(0, 0, 0, 0.12);
+      height: 48px;
+      padding: 0 16px;
+    }
+
+    tbody tr td:first-child {
+      padding-left: 3rem;
+      padding-right: 6em;
+    }
+  }
+
+
+  th {
+    text-align: center;
+    background-color: color('teal');
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .MetricColumn {
+    text-align: start;
+  }
+}

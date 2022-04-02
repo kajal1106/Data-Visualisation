@@ -1,0 +1,41 @@
+@use "sass:math";
+
+$unit: 4.8rem;
+$sizes: (
+  md: (
+    default: math.div($unit, 3.5),
+    md: math.div($unit, 2.38),
+    lg: math.div($unit, 2),
+  ),
+  ml: (
+    default: math.div($unit, 2.38),
+    md: math.div($unit, 2),
+    lg: math.div($unit, 1.19),
+  ),
+  lg: (
+    default: math.div($unit, 2),
+    md: math.div($unit, 1.19),
+    lg: math.div($unit, 1),
+  ),
+  xl: (
+    default: math.div($unit, 1.38),
+    md: math.div($unit, .75),
+    lg: math.div($unit, .618),
+  ),
+) !default;
+
+@function getSize($value, $multiplier: 1) {
+  @if $multiplier == 1 {
+    @return var(--s-#{$value});
+  } @else {
+    @return calc(var(--s-#{$value}) * #{$multiplier});
+  }
+}
+
+@function size($value, $multiplier: 1) {
+  @return getSize($value, $multiplier);
+}
+
+@function spacing($value, $multiplier: 1) {
+  @return getSize($value, $multiplier);
+}

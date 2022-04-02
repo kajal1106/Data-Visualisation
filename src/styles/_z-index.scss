@@ -1,0 +1,26 @@
+$z-indexes: (
+  // order this list from top layer to bottom
+  // '.selectors', // this selector would receive the top-most z-index
+  // '[should-be]',
+  // '#wrapped-in-quotes' // this one at the bottom of the stack, but still above everything else on the page
+  '.AppNavBar',
+);
+$reversed-z-indexes: reverse($z-indexes);
+
+@function z($name) {
+  @if index($z-indexes, $name) {
+    @return (length($z-indexes) - index($z-indexes, $name)) + 10000;
+  } @else {
+    @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+    @return null;
+  }
+}
+
+@each $layer in $reversed-z-indexes {
+  #{$layer} {
+    z-index: z($layer);
+  }
+}
+
+// you can put overriding rules below
+// usually overriding rules are for responsive purposes

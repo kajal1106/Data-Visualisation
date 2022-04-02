@@ -1,0 +1,7 @@
+@mixin clampLines($numberOfLines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $numberOfLines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

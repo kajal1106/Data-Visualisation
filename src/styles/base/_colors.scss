@@ -1,0 +1,102 @@
+$colors: (
+  'dark': #0A1D2A,
+  'white': #ffffff,
+  'teal': #57A2A7,
+  'khaki': #B4AC98,
+  'yellow': #DFAC00,
+  'blue': #1C89C4,
+  'gray': #CFD4D8,
+  'lightgray': #F1F1F1,
+  'red' : #ff0e0e,
+  'green': #21a129,
+);
+
+$contextColors: (
+  'foreground': "dark",
+  'background': "white",
+  'primary': "teal",
+  'secondary': "dark",
+  'alert': "red",
+  'attention': "yellow",
+  'neutral': "white",
+  'positive': "green",
+);
+
+@function staticColor($colorName: a, $alpha: 1, $lx: 0, $sx: null) {
+  // @return unquote('hsla(')
+  //   var(--#{$namespace}-c-#{'' + $colorName}-hsl),
+  //   $alpha
+  // unquote(')');
+
+  // @if (map-get($contextColors, $colorName)) {
+  //   $contextColor: map-get($contextColors, $colorName);
+  //   @return getOpacifiedColor(var(--#{$namespace}-c-#{'' + $contextColor}-hsl), $alpha);
+  // }
+
+  @return getOpacifiedColor(var(--#{$namespace}-c-#{'' + $colorName}-hsl), $alpha);
+}
+
+@function color($colorName, $opacity: 1) {
+  // if $contextColor, get values from $colors.
+  @if (map-get($contextColors, $colorName)) {
+    $contextColor: map-get($contextColors, $colorName);
+    $color: map-get($colors, $contextColor);
+    @return getOpacifiedColor($color, $opacity);
+  }
+
+  $color: map-get($colors, $colorName);
+  @return getOpacifiedColor($color, $opacity);
+}
+
+@function getOpacifiedColor($colorName, $opacity) {
+  @if $opacity == 1 {
+    @return $colorName;
+  } @else {
+    @return transparentize($colorName, 1 - $opacity);
+  }
+}
+
+@function contrastColor($colorName: a, $alpha: 1, $lx: 0, $sx: null) {
+  $lx: 1 + $lx;
+  @if $sx == null {
+    $sx: abs($lx);
+  }
+  @if $lx == 1 {
+    @return unquote('hsla(')
+      var(--#{$namespace}-c-#{'' + $colorName}-hsl),
+      $alpha
+    unquote(')');
+  } @else {
+    @return hsla(
+      var(--#{$namespace}-c-#{'' + $colorName}_h),
+      calc(var(--#{$namespace}-c-#{'' + $colorName}_s)*#{$sx}),
+      calc(var(--#{$namespace}-c-#{'' + $colorName}_l)*#{$lx}),
+      $alpha
+    );
+  }
+}
+
+@mixin setContextColor($contextColorName, $colorName) {
+  --#{$namespace}-c-#{'' + $contextColorName}-hsl: var(--#{$namespace}-c-#{'' + $colorName}-hsl);
+  // --#{$namespace}-c-#{'' + $contextColorName}-h: var(--#{$namespace}-c-#{'' + $colorName}-h);
+  // --#{$namespace}-c-#{'' + $contextColorName}-s: var(--#{$namespace}-c-#{'' + $colorName}-s);
+  // --#{$namespace}-c-#{'' + $contextColorName}-l: var(--#{$namespace}-c-#{'' + $colorName}-l);
+  // --#{$namespace}-c-#{'' + $contextColorName}-hsl: var(--#{$namespace}-c-#{'' + $colorName}-hsl);
+  // --#{$namespace}-c-#{'' + $contextColorName}_h: var(--#{$namespace}-c-#{'' + $colorName}_h);
+  // --#{$namespace}-c-#{'' + $contextColorName}_s: var(--#{$namespace}-c-#{'' + $colorName}_s);
+  // --#{$namespace}-c-#{'' + $contextColorName}_l: var(--#{$namespace}-c-#{'' + $colorName}_l);
+  // --#{$namespace}-c-#{'' + $contextColorName}_hsl: var(--#{$namespace}-c-#{'' + $colorName}_hsl);
+}
+
+@mixin setForegroundColor($colorName) {
+  @include setContextColor('foreground', $colorName);
+}
+@mixin setBackgroundColor($colorName) {
+  @include setContextColor('background', $colorName);
+}
+@mixin setPrimaryColor($colorName) {
+  @include setContextColor('primary', $colorName);
+}
+@mixin setSecondaryColor($colorName) {
+  @include setContextColor('secondary', $colorName);
+}

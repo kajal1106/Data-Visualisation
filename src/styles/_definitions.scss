@@ -1,0 +1,38 @@
+:root {
+  /* HSL colors */
+  @each $color, $value in $colors {
+    // @error "color: ", $color, "value: ", $value;
+    --#{$namespace}-c-#{'' + $color}-hsl: #{$value};
+    // --#{$namespace}-c-#{'' + $color}-h: #{nth($value,1)};
+    // --#{$namespace}-c-#{'' + $color}-s: #{nth($value,2)};
+    // --#{$namespace}-c-#{'' + $color}-l: #{nth($value,3)};
+    // --#{$namespace}-c-#{'' + $color}-hsl: #{nth($value,1),nth($value,2),nth($value,3)};
+    // --#{$namespace}-c-#{'' + $color}_h: #{nth(map-get($value, contrast),1)};
+    // --#{$namespace}-c-#{'' + $color}_s: #{nth(map-get($value, contrast),2)};
+    // --#{$namespace}-c-#{'' + $color}_l: #{nth(map-get($value, contrast),3)};
+    // --#{$namespace}-c-#{'' + $color}_hsl: #{nth(map-get($value, contrast),1),nth(map-get($value, contrast),2),nth(map-get($value, contrast),3)};
+  }
+  // set context colors in apps.
+  @each $contextColorName, $colorName in $contextColors {
+    @include setContextColor($contextColorName, $colorName)
+  }
+}
+
+:root {
+  /* units and sizes */
+  @each $name, $value in $sizes {
+    @if (type-of($value) == 'map') {
+      @each $breakpoint, $breakpointValue in $value {
+        @if ($breakpoint == 'default') {
+          --s-#{$name}: #{$breakpointValue};
+        } @else {
+          @media #{getMediaQuery('from', $breakpoint)} {
+            --s-#{$name}: #{$breakpointValue};
+          }
+        }
+      }
+    } @else {
+      --s-#{$name}: #{$value};
+    }
+  }
+}

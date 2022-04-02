@@ -1,0 +1,10 @@
+.u-hidden-on-phones {
+  @media #{$only-phone} {
+    display: none !important;
+  }
+}
+.u-hidden-on-desktop {
+  @media #{$tablet} {
+    display: none !important;
+  }
+}

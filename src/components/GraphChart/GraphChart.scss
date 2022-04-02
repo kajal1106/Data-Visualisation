@@ -1,0 +1,31 @@
+@import '../../styles/base';
+
+.GraphChart {
+  flex: 1;
+  margin-top: size(lg);
+  @media #{$desktop} {
+    margin-top: 0;
+    margin-left: size(lg);
+  }
+  canvas {
+    width: 100% !important;
+    background-color: #fff;
+    box-shadow: 0 3px 10px 0 rgba(99, 118, 129, 0.3);
+    transition: box-shadow 0.25s cubic-bezier(0.32, 0.01, 0, 1);
+    // height: auto !important;
+  }
+  h3 {
+    text-align: center;
+    background-color: color('teal');
+    text-transform: uppercase;
+    color: white;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    height: 48px;
+    vertical-align: middle;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,41 @@
+%hideScrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  // IE 10+
+  ::-webkit-scrollbar,
+  &::-webkit-scrollbar {
+    display: none;
+    background: transparent;
+    visibility: hidden;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  ::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-track {
+    display: none;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+    background: transparent;
+  }
+}
+
+@mixin colorCodedStates {
+  &.state-neutral { @include setPrimaryColor('neutral') }
+  &.state-success, &.state-positive { @include setPrimaryColor('positive') }
+  &.state-success { @include setPrimaryColor('positive') }
+  &.state-attention, &.state-warning { @include setPrimaryColor('attention') }
+  &.state-alert, &.state-error { @include setPrimaryColor('alert') }
+  &.state-disabled {
+    filter: grayscale(.7);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  &[class*=state-] {
+    --InputBorderColor: color('primary');
+  }
+}
+%colorCodedStates {
+  @include colorCodedStates();
+}
