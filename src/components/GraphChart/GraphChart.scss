@@ -2,10 +2,10 @@
 
 .GraphChart {
   flex: 1;
-  margin-top: size(lg);
+  margin-top: size(ml);
   @media #{$desktop} {
     margin-top: 0;
-    margin-left: size(lg);
+    margin-left: size(ml);
   }
   canvas {
     width: 100% !important;

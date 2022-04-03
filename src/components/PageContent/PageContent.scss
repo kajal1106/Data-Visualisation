@@ -12,6 +12,7 @@
 .PageContentInner {
   // min-height: 80vh;
   padding: size(lg);
+  padding-bottom: size(lg,2);
   display: flex;
   flex-direction: column;
   max-width: 100%;
