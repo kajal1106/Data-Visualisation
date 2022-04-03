@@ -1,0 +1,7 @@
+{
+  "baseUrl": "https://localhost:3000/",
+  "supportFile": "cypress/support/index.ts",
+  "viewportWidth": 375,
+  "viewportHeight": 812,
+  "chromeWebSecurity": false
+}
