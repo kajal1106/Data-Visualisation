@@ -84,7 +84,7 @@ const DataTable : React.FC<DataTableProps> = props => {
         <tbody>
           {props.predictionData?.map((dataSample :PredictedData , index:any) =>  
            dataSample.values[dataSample.times.length - 1] !== 0  &&
-            <tr key={index}>
+            <tr data-sample-name={dataSample.name} key={index}>
               <td>
                 <input
                   type="checkbox"
@@ -96,7 +96,7 @@ const DataTable : React.FC<DataTableProps> = props => {
                 {dataSample.name}
               </td>
               <td>
-                {dataSample.values[dataSample.times.length - 1]}
+                {dataSample.values[dataSample.times.length - 1]} 
               </td>
             </tr>
           )}

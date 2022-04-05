@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { PredictedData } from "../../types/base.types";
 import './GraphChart.scss'
@@ -8,10 +8,13 @@ type GraphChartProps = {
   predictionData?: PredictedData[]
 }
 const GraphChart : React.FC<GraphChartProps> = props => {
+  const [emptyGraph, setGraphStatus] = useState(true);
   Chart.register(...registerables); // register custom chart
 
   const dataSets = [];
-
+  const toggleGraphState = () => {
+    setGraphStatus(!emptyGraph);
+  };
   function getRandomColor() {
     var transparency = '0.5'; // 50% transparency
     var color = 'rgba(';
@@ -34,8 +37,10 @@ const GraphChart : React.FC<GraphChartProps> = props => {
         "pointStyle": "circle",
         "pointRadius": 5,
         "pointHoverRadius": 10,
-        fill: true,
+        // fill: true,
       });
+      if(emptyGraph) toggleGraphState();
+      // toggleGraphState();
     }
   });
   // console.log(dataSets);
@@ -81,7 +86,7 @@ const GraphChart : React.FC<GraphChartProps> = props => {
   }
 
   return (
-    <div className="GraphChart">
+    <div className="GraphChart"  {...emptyGraph && {"data-empty-graph" : "true"}}>
       <h3>Line Chart of the metric and the value</h3>
       <Line data={sampleData} options={options}/>
     </div>

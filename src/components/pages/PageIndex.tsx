@@ -1,4 +1,3 @@
-import { ConsoleIcon } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { PredictedData } from "../../types/base.types";
 import AppNavBar from "../AppNavBar/AppNavBar";
@@ -12,9 +11,10 @@ type PageReportIndexProps = {
 }
 
 const PageIndex : React.FC<PageReportIndexProps> = props =>{
-  const [originalData, setData] = useState<PredictedData[]>();
+  const [originalData, setData] = useState<PredictedData[]>(); // original data from the server 
   const [filteredData, setFilteredData] = useState<PredictedData[]>(props.predictionData!);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true); // set loading to true to show loading spinner
+  const [apiRequest, setApiRequest] = useState(true); // set apiRequest to true to make api request 
 
   useEffect(() => {
     setTimeout(()=>{
@@ -25,47 +25,54 @@ const PageIndex : React.FC<PageReportIndexProps> = props =>{
   },[]);
 
   const fetchData = async() => {
-    const response = await fetch("/express_backend");
-    let id = 1;
-    await response.json()
-    .then(data => {
-      const dataSamples : PredictedData[] = [];
-      const allData = data.current.data.HDT1;
-      for (let key in data.current.data.HDT1) {
-        if(typeof(allData[key].values) === 'object') {
-          dataSamples.push({
-            id: id,
-            name: key,
-            times: allData[key].times,
-            values: allData[key].values,
-            checked: false
-          });
-          id++;
+    try{
+      const response = await fetch("/getData"); // get data from api
+      let id = 1;
+      await response.json() // parse response to json
+      .then(data => {
+        const dataSamples : PredictedData[] = []; // create array of data samples
+        const allData = data.current.data.TK1; // get data from api
+        for (let key in data.current.data.TK1) {
+          if(typeof(allData[key].values) === 'object') { // check if data is an object
+            dataSamples.push({ 
+              id: id,
+              name: key,
+              times: allData[key].times,
+              values: allData[key].values,
+              checked: false
+            }); // push data to dataSamples array
+            id++;
+          }
         }
-      }
-      setData(dataSamples);
-      setFilteredData(dataSamples);
-      setLoading(false);
-    });
+        setData(dataSamples); 
+        setFilteredData(dataSamples); 
+        setLoading(false);
+      });
+    }
+    catch(err){
+      console.log('err');
+      setApiRequest(false); // set apiRequest to false if there is an error
+      window.alert('Unable to Retrieve the Data! Please Try Again!');
+    }
   };
 
   const updateDataSamples = (changedDataSamples : PredictedData[]) => {
-    setFilteredData(changedDataSamples);
+    setFilteredData(changedDataSamples); 
   }
   const refreshFilterData = () => {
     setFilteredData(originalData);
   }
 
   return ( <>
-    <div className="PageIndex">
+    <div className="PageIndex" {...!apiRequest && {"data-error" : "true"}}>
       <AppNavBar/>
       {isLoading && <div className="loading"><div></div></div>}
       {!isLoading &&
-      <PageContent>
-        <DataTable predictionData={filteredData} updateData={updateDataSamples} refreshFilterData={refreshFilterData}/>
-        <GraphChart predictionData={filteredData}/>
-      </PageContent>
-}
+        <PageContent>
+          <DataTable predictionData={filteredData} updateData={updateDataSamples} refreshFilterData={refreshFilterData}/>
+          <GraphChart predictionData={filteredData}/>
+        </PageContent>
+      }
     </div>
     </>
   );
