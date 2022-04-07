@@ -4,9 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "init-server": "node devServer.js",
-    "init-app": "react-scripts start",
-    "start": "(npm run init-server & npm run init-app)",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "prod": "npm run build",
     "test": "react-scripts test",

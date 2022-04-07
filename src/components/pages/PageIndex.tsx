@@ -26,7 +26,9 @@ const PageIndex : React.FC<PageReportIndexProps> = props =>{
 
   const fetchData = async() => {
     try{
-      const response = await fetch("/getData"); // get data from api
+      // const response = await fetch("/getData"); // get data from api
+      // switch between the response if you want to run the devServer.js locally.
+      const response = await fetch("https://reference.intellisense.io/thickenernn/v1/referencia");
       let id = 1;
       await response.json() // parse response to json
       .then(data => {

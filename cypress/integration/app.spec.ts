@@ -2,7 +2,6 @@ context('Data Table Functionality', () => {
 	beforeEach(() => {
 		cy.visit("http://localhost:3000");
     waitForFetchingData();
-
 	});
 
   const waitForFetchingData = () => {
